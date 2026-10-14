@@ -14,4 +14,11 @@ def is_feasible(p: dict) -> bool:
     - the cut-in speed p["cutV"] is not in (0, 22] m/s.
     mu is p["mu"]. A search that keeps infeasible scenarios reports failures that cannot happen.
     """
-    raise NotImplementedError("TODO 3: is_feasible")
+    from math import pi
+
+    if p["cutDur"] <= 0:
+        return False
+    grip = p["mu"] * G
+    lateral = (pi / p["cutDur"]) ** 2 * 3.5 / 2
+    return bool(lateral <= grip and p["cutBrake"] <= grip
+                and p["pedV"] <= 2.5 and 0 < p["cutV"] <= 22)
